@@ -3,19 +3,23 @@ import "./App.css";
 import axios from "axios";
 function App() {
   const [products, setProducts] = useState([]);
+  const [isLoading, setIsloading] = useState(false);
 
   const fetchProductHandle = async () => {
     const response = await axios.get("http://localhost:4001/products");
     setProducts(response.data.data);
+    console.log(response.data.data);
   };
 
   const deleteProductHandle = async (id) => {
+    setIsloading(true);
     await axios.delete(`http://localhost:4001/products/${id}`);
+    setIsloading(false);
   };
 
   useEffect(() => {
     fetchProductHandle();
-  }, [products]);
+  }, [isLoading]);
 
   return (
     <div className="App">
